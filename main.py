@@ -145,6 +145,14 @@ with col2:
                                 f"<span class='info-badge'>Severity: {result.get('severity', 'N/A')}</span>", unsafe_allow_html=True)
                             st.markdown(
                                 f"<span class='info-badge'>Confidence: {result.get('confidence', 'N/A')}%</span>", unsafe_allow_html=True)
+                            # Display predicted plant name
+                            if result.get('predicted_plant_name'):
+                                plant_info = result.get('predicted_plant_name', {})
+                                plant_name = plant_info.get('name', 'Unknown')
+                                plant_confidence = plant_info.get('confidence', 0.0)
+                                st.markdown(
+                                    f"<span class='info-badge'>🌱 Plant: {plant_name} ({plant_confidence*100:.1f}%)</span>", 
+                                    unsafe_allow_html=True)
                             st.markdown(
                                 "<div class='section-title'>Symptoms</div>", unsafe_allow_html=True)
                             st.markdown("<ul class='symptom-list'>",
@@ -184,6 +192,14 @@ with col2:
                                 f"<span class='info-badge'>Status: {result.get('disease_type', 'healthy')}</span>", unsafe_allow_html=True)
                             st.markdown(
                                 f"<span class='info-badge'>Confidence: {result.get('confidence', 'N/A')}%</span>", unsafe_allow_html=True)
+                            # Display predicted plant name
+                            if result.get('predicted_plant_name'):
+                                plant_info = result.get('predicted_plant_name', {})
+                                plant_name = plant_info.get('name', 'Unknown')
+                                plant_confidence = plant_info.get('confidence', 0.0)
+                                st.markdown(
+                                    f"<span class='info-badge'>🌱 Plant: {plant_name} ({plant_confidence*100:.1f}%)</span>", 
+                                    unsafe_allow_html=True)
                             st.markdown(
                                 f"<div class='timestamp'>🕒 {result.get('analysis_timestamp', 'N/A')}</div>", unsafe_allow_html=True)
                             st.markdown("</div>", unsafe_allow_html=True)

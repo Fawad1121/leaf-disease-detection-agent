@@ -2,7 +2,7 @@ import os
 import json
 import logging
 import sys
-from typing import Dict, Optional, List
+from typing import Dict, Optional, List, Union
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -38,6 +38,7 @@ class DiseaseAnalysisResult:
     symptoms: List[str]
     possible_causes: List[str]
     treatment: List[str]
+    predicted_plant_name: Dict[str, Union[str, float]]
     analysis_timestamp: str = datetime.now().astimezone().isoformat()
 
 
@@ -151,7 +152,11 @@ class LeafDiseaseDetector:
             "confidence": 95,
             "symptoms": ["This image does not contain a plant leaf"],
             "possible_causes": ["Invalid image type uploaded"],
-            "treatment": ["Please upload an image of a plant leaf for disease analysis"]
+            "treatment": ["Please upload an image of a plant leaf for disease analysis"],
+            "predicted_plant_name": {
+                "name": "Not a plant",
+                "confidence": 0
+            }
         }
         
         For VALID LEAF images, return this format:
@@ -163,7 +168,11 @@ class LeafDiseaseDetector:
             "confidence": 85,
             "symptoms": ["list", "of", "symptoms"],
             "possible_causes": ["list", "of", "causes"],
-            "treatment": ["list", "of", "treatments"]
+            "treatment": ["list", "of", "treatments"],
+            "predicted_plant_name": {
+                "name": "plant species name",
+                "confidence": 90
+            }
         }"""
 
     def analyze_leaf_image_base64(self, base64_image: str,
@@ -278,7 +287,8 @@ class LeafDiseaseDetector:
                 confidence=float(disease_data.get('confidence', 0)),
                 symptoms=disease_data.get('symptoms', []),
                 possible_causes=disease_data.get('possible_causes', []),
-                treatment=disease_data.get('treatment', [])
+                treatment=disease_data.get('treatment', []),
+                predicted_plant_name=disease_data.get('predicted_plant_name', {"name": "Unknown", "confidence": 0.0})
             )
 
         except json.JSONDecodeError:
@@ -304,7 +314,8 @@ class LeafDiseaseDetector:
                         symptoms=disease_data.get('symptoms', []),
                         possible_causes=disease_data.get(
                             'possible_causes', []),
-                        treatment=disease_data.get('treatment', [])
+                        treatment=disease_data.get('treatment', []),
+                        predicted_plant_name=disease_data.get('predicted_plant_name', {"name": "Unknown", "confidence": 0.0})
                     )
                 except json.JSONDecodeError:
                     pass
