@@ -85,7 +85,7 @@ api_url = "http://leaf-diseases-detect.vercel.app"
 col1, col2 = st.columns([1, 2])
 with col1:
     uploaded_file = st.file_uploader(
-        "Upload Leaf Image", type=["jpg", "jpeg", "png"])
+        "Upload Leaf Image", type=["jpg", "jpeg", "png","webp"])
     if uploaded_file is not None:
         st.image(uploaded_file, caption="Preview")
 
